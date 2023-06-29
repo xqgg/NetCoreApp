@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
+    
+    //[ApiController]
     public class BookController : ControllerBase
     {
         private readonly IBookBusiness _bookBusiness;
@@ -43,10 +43,11 @@ namespace WebApi.Controllers
             }
             return result;
         }
+ 
         /// <summary>
-        /// 添加英雄订单表的数据
+        /// 
         /// </summary>
-        /// <param name="model">HeroOrder模型</param>
+        /// <param name="viewModel"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<ResultModel> Add(AddBook viewModel)

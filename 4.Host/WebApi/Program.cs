@@ -7,6 +7,10 @@ using Autofac;
 using Core.Service.Context;
 using Core.Redis;
 using Core.Common.Modules;
+using GC.WebApi.Common.Routes;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Models;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -41,13 +45,15 @@ services.BuildServiceProvider().GetRequiredService<RedisHelper>().Test();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//Autofac批量注入
+
+
+#region Autofac批量注入
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
 {
     builder.RegisterModule<CustomerAutofacModule>();
 });
-
+#endregion Autofac批量注入
 
 
 builder.Services.AddAuthentication(options =>
@@ -68,6 +74,16 @@ builder.Services.AddAuthentication(options =>
         RequireExpirationTime = true,
     };
 });
+
+
+OpenApiInfo info = configuration.GetSection("SwaggerInfo").Get<OpenApiInfo>();
+
+#region 全局路由
+services.AddControllers(opt =>
+{
+    opt.UseCentralRoutePrefix(new RouteAttribute($"api/{info.Version}/[controller]/[action]"));
+});
+#endregion  
 
 
 var app = builder.Build();
