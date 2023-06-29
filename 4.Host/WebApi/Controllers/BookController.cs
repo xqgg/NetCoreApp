@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
-    
+
     //[ApiController]
     public class BookController : ControllerBase
     {
@@ -18,14 +18,14 @@ namespace WebApi.Controllers
         }
 
 
-        [HttpGet]
-        public async Task<ResultModel> GetById(int Id)
+        [HttpGet("{id}")]
+        public async Task<ResultModel> GetById(int id)
         {
             ResultModel result = new ResultModel() { Code = ResultCode.SUCCESS, Info = "成功" };
             try
             {
 
-                var book = await _bookBusiness.GetById(Id);
+                var book = await _bookBusiness.GetById(id);
                 if (book != null)
                 {
                     result.Data = book;
