@@ -8,6 +8,8 @@ namespace Core.IBusiness
 
         public Task<User> GetByName(string name);
 
+        public Task<Authority_User> Login(string email, string password);
 
+        public Task<List<string>> GetUserRoles(int id);
     }
 }

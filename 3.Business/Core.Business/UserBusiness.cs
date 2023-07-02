@@ -50,6 +50,39 @@ namespace Core.Business
             return user;
         }
 
+        public async Task<List<string>> GetUserRoles(int id)
+        {
+            var user = await GetById(id);
+
+            return user.Roles.Split(",").ToList();
+        }
+
+        public async Task<Authority_User> Login(string email, string password)
+        {
+
+            try
+            {
+                User user = await context.Users.SingleAsync(u => u.Email == email && u.Password == password);
+
+                Authority_User authority_User = new Authority_User()
+                {
+                    ID = user.ID,
+                    Account = user.Email,
+                    Password = password
+                };
+
+                return authority_User;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+
+
+        }
+
         public Task<bool> Update(params User[] items)
         {
             throw new NotImplementedException();

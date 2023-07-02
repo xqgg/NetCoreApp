@@ -2,12 +2,14 @@
 using Core.IBusiness;
 using Core.Model;
 using Core.ViewModel.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
 
-    //[ApiController]
+    [Authorize]
+
     public class BookController : ControllerBase
     {
         private readonly IBookBusiness _bookBusiness;
@@ -43,14 +45,14 @@ namespace WebApi.Controllers
             }
             return result;
         }
- 
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ResultModel> Add(AddBook viewModel)
+        public async Task<ResultModel> Add(AddBookRequest viewModel)
         {
             ResultModel result = new ResultModel() { Code = ResultCode.SUCCESS, Info = "成功" };
 

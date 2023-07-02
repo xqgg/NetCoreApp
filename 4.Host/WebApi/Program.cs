@@ -11,6 +11,8 @@ using GC.WebApi.Common.Routes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using System.Configuration;
+using System.Globalization;
+using System.Drawing;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -64,11 +66,11 @@ builder.Services.AddAuthentication(options =>
     options.TokenValidationParameters = new()
     {
         ValidateIssuer = true, //是否验证Issuer
-        ValidIssuer = configuration["Jwt:Issuer"], //发行人Issuer
+        ValidIssuer = configuration["JwtInfo:Issuer"], //发行人Issuer
         ValidateAudience = true, //是否验证Audience
-        ValidAudience = configuration["Jwt:Audience"], //订阅人Audience
+        ValidAudience = configuration["JwtInfo:Audience"], //订阅人Audience
         ValidateIssuerSigningKey = true, //是否验证SecurityKey
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"])), //SecurityKey
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtInfo:SecurityKey"])), //SecurityKey安全秘钥
         ValidateLifetime = true, //是否验证失效时间
         ClockSkew = TimeSpan.FromSeconds(30), //过期时间容错值，解决服务器端时间不同步问题（秒）
         RequireExpirationTime = true,
@@ -83,8 +85,37 @@ services.AddControllers(opt =>
 {
     opt.UseCentralRoutePrefix(new RouteAttribute($"api/{info.Version}/[controller]/[action]"));
 });
-#endregion  
+#endregion
 
+
+#region swagger jwt 验证
+services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
+
+#endregion
 
 var app = builder.Build();
 

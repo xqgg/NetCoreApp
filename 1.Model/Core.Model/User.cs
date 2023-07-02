@@ -21,7 +21,9 @@ namespace Core.Model
         [Required]
         [StringLength(50)]
         public string PhoneNumber { get; set; }
-      
+
+
+        public string Roles { get; set; }
 
     }
 }

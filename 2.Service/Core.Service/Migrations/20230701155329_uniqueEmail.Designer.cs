@@ -4,6 +4,7 @@ using Core.Service.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Service.Migrations
 {
     [DbContext(typeof(NCDbContext))]
-    partial class NCDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230701155329_uniqueEmail")]
+    partial class uniqueEmail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,7 +129,6 @@ namespace Service.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Roles")
-                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
@@ -136,12 +138,6 @@ namespace Service.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.HasIndex("PhoneNumber")
                         .IsUnique();
 
                     b.ToTable("T_Users", (string)null);

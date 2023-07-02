@@ -14,7 +14,10 @@ namespace Core.Service.Config
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("T_Users");
-
+            builder.HasIndex(u => u.Email).IsUnique();
+            builder.HasIndex(u => u.Name).IsUnique();
+            builder.HasIndex(u => u.PhoneNumber).IsUnique();
+            builder.Property(u => u.Roles).HasMaxLength(128);
 
         }
     }

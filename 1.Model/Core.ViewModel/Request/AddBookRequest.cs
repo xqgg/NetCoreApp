@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.ViewModel.Request
 {
-    public class AddBook
+    public class AddBookRequest
     {
         [Range(0, double.MaxValue)]
         public double Price { get; set; }

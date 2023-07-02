@@ -3,7 +3,7 @@
 
 namespace Core.ViewModel.Request
 {
-    public class AddUser
+    public class AddUserRequest
     {
         [StringLength(30)]
         public string Name { get; set; }

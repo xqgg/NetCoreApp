@@ -2,12 +2,14 @@
 using Core.IBusiness;
 using Core.Model;
 using Core.ViewModel.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
 
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserBusiness userBusiness;
@@ -36,7 +38,7 @@ namespace WebApi.Controllers
 
 
         [HttpPost]
-        public async Task<ResultModel> Add([FromBody] AddUser addUser)
+        public async Task<ResultModel> Add([FromBody] AddUserRequest addUser)
         {
             ResultModel result = new ResultModel() { Code = ResultCode.SUCCESS, Info = "成功" };
 
