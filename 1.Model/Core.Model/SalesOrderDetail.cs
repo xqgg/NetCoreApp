@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Models.Base;
+using System;
 using System.Collections.Generic;
 
 namespace Core.Models;
@@ -6,7 +7,7 @@ namespace Core.Models;
 /// <summary>
 /// Individual products associated with a specific sales order. See SalesOrderHeader.
 /// </summary>
-public partial class SalesOrderDetail
+public partial class SalesOrderDetail : BaseModel
 {
     /// <summary>
     /// Primary key. Foreign key to SalesOrderHeader.SalesOrderID.
