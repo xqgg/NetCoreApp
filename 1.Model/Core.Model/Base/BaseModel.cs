@@ -1,6 +1,6 @@
 ﻿using Core.Enum;
 
-namespace Core.Model.Base
+namespace Core.Models.Base
 {
     public class BaseModel
     {

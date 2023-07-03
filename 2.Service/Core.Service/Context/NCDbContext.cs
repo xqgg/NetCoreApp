@@ -1,4 +1,4 @@
-﻿using Core.Model;
+﻿using Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.Service.Context
@@ -13,7 +13,10 @@ namespace Core.Service.Context
         public DbSet<Book> Books { get; set; }
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Role> Roles { get; set; }
 
+
+        public virtual DbSet<SalesOrderDetail> SalesOrderDetails { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

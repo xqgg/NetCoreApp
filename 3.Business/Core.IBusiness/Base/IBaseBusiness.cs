@@ -1,6 +1,6 @@
 ﻿using Core.Common.Modules;
 using Core.Enum;
-using Core.Model.Base;
+using Core.Models.Base;
 
 namespace Core.IBusiness.Base
 {

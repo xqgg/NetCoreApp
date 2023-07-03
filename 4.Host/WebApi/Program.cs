@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Autofac.Extensions.DependencyInjection;
 using Autofac;
 using Core.Service.Context;
-using Core.Redis;
+//using Core.Redis;
 using Core.Common.Modules;
 using GC.WebApi.Common.Routes;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +13,8 @@ using Microsoft.OpenApi.Models;
 using System.Configuration;
 using System.Globalization;
 using System.Drawing;
+using ColinChang.RedisHelper;
+
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -32,13 +34,20 @@ services.AddScoped<RedisHelper>();
 
 
 
-services.AddSingleton<RedisOptions>()
-    .Configure<RedisOptions>(r => configuration.GetSection("RedisOptions:Default").Bind(r));
+//services.AddSingleton<RedisOptions>()
+//    .Configure<RedisOptions>(r => configuration.GetSection("RedisOptions:Default").Bind(r));
 
 
 
 
-services.BuildServiceProvider().GetRequiredService<RedisHelper>().Test();
+//services.BuildServiceProvider().GetRequiredService<RedisHelper>().Test();
+
+
+#region 注册Redis
+
+services.AddRedisHelper(configuration.GetSection(nameof(RedisHelperOptions)));
+
+#endregion
 
 
 
@@ -58,6 +67,20 @@ builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
 #endregion Autofac批量注入
 
 
+
+
+
+OpenApiInfo info = configuration.GetSection("SwaggerInfo").Get<OpenApiInfo>();
+
+#region 全局路由
+services.AddControllers(opt =>
+{
+    opt.UseCentralRoutePrefix(new RouteAttribute($"api/{info.Version}/[controller]/[action]"));
+});
+#endregion
+
+
+#region swagger jwt 验证
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -78,17 +101,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 
-OpenApiInfo info = configuration.GetSection("SwaggerInfo").Get<OpenApiInfo>();
 
-#region 全局路由
-services.AddControllers(opt =>
-{
-    opt.UseCentralRoutePrefix(new RouteAttribute($"api/{info.Version}/[controller]/[action]"));
-});
-#endregion
-
-
-#region swagger jwt 验证
 services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
@@ -116,6 +129,10 @@ services.AddSwaggerGen(c =>
 });
 
 #endregion
+
+
+
+
 
 var app = builder.Build();
 

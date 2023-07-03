@@ -1,6 +1,6 @@
-﻿using Core.Model.Base;
+﻿using Core.Models.Base;
 
-namespace Core.Model
+namespace Core.Models
 {
     public class Book : BaseModel
     {

@@ -1,4 +1,4 @@
-﻿using Core.Model.Base;
+﻿using Core.Models.Base;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Model
+namespace Core.Models
 {
     public class Authority_User : BaseModel
     {

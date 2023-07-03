@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Model
+namespace Core.Models
 {
     public class User : Base.BaseModel
     {

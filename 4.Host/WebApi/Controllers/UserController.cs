@@ -1,6 +1,6 @@
 ﻿using Core.Common.Filter;
 using Core.IBusiness;
-using Core.Model;
+using Core.Models;
 using Core.ViewModel.Request;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

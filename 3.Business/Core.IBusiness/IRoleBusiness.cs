@@ -1,5 +1,5 @@
 ﻿using Core.IBusiness.Base;
-using Core.Model;
+using Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

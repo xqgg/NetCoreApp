@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Enum", "0.Common\Core.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Common", "0.Common\Core.Common\Core.Common.csproj", "{790076D5-D2F9-4A8A-BAD2-0A670EACD0A2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Model", "1.Model\Core.Model\Core.Model.csproj", "{EC4A9296-D4B3-4726-AB63-265F9023A476}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Models", "1.Model\Core.Model\Core.Models.csproj", "{EC4A9296-D4B3-4726-AB63-265F9023A476}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.ViewModel", "1.Model\Core.ViewModel\Core.ViewModel.csproj", "{EDC00AA3-6719-436D-90AC-2F3A91907923}"
 EndProject

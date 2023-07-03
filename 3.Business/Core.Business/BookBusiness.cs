@@ -1,6 +1,6 @@
 ﻿using Core.Enum;
 using Core.IBusiness;
-using Core.Model;
+using Core.Models;
 using Core.Service.Context;
 using Core.ViewModel.Respons;
 using Microsoft.EntityFrameworkCore;

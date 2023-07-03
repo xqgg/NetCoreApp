@@ -7,8 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ColinChang.RedisHelper" Version="1.2.7" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\0.Common\Core.Common\Core.Common.csproj" />
-    <ProjectReference Include="..\..\1.Model\Core.Model\Core.Model.csproj" />
+    <ProjectReference Include="..\..\1.Model\Core.Model\Core.Models.csproj" />
     <ProjectReference Include="..\..\1.Model\Core.ViewModel\Core.ViewModel.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,4 @@
-﻿using Core.Model;
+﻿using Core.Models;
 using Core.ViewModel.Respons;
 
 namespace Core.IBusiness

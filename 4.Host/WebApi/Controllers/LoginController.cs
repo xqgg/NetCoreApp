@@ -1,7 +1,8 @@
-﻿using Core.Common.Filter;
+﻿using ColinChang.RedisHelper;
+using Core.Common.Filter;
 using Core.Common.Jwt;
 using Core.IBusiness;
-using Core.Model;
+using Core.Models;
 using Core.ViewModel.Request;
 using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -20,11 +22,13 @@ namespace WebApi.Controllers
     {
         private readonly IUserBusiness _userBusiness;
         private readonly IConfiguration _configuration;
+        private readonly IRedisHelper _redis;
 
-        public LoginController(IUserBusiness userBusiness, IConfiguration configuration)
+        public LoginController(IUserBusiness userBusiness, IConfiguration configuration, IRedisHelper redis)
         {
             _userBusiness = userBusiness;
             _configuration = configuration;
+            _redis = redis;
         }
 
         [HttpPost]
@@ -74,7 +78,37 @@ namespace WebApi.Controllers
 
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<string> Get()
+        {
+            const string key = "msg";
+            //await _redis.StringSetAsync(key, "hello world");
 
+
+            //await _redis.StringSetAsync(key, "");
+            //await _redis.KeyExpireAsync(key, TimeSpan.FromSeconds(10));
+
+
+
+
+            //await _redis.StringSetAsync("age", 18);
+            //await _redis.StringIncrementAsync("age");
+
+
+            await _redis.EnqueueAsync(key, DateTime.Now);
+            await _redis.EnqueueAsync(key, DateTime.Now.AddSeconds(5));
+            await _redis.KeyExpireAsync(key, TimeSpan.FromSeconds(5));
+
+
+
+
+
+
+            //var content = await _redis.StringGetAsync<string>(key);
+            //await _redis.KeyDeleteAsync(new[] { key });
+            return key;
+        }
 
     }
 }
