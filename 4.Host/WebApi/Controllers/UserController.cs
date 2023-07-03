@@ -23,6 +23,9 @@ namespace WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ResultModel> GetById(int id)
         {
+            string jwtv = User.FindFirst("jwtv")?.Value;
+
+
             ResultModel result = new ResultModel() { Code = ResultCode.SUCCESS, Info = "成功" };
             try
             {

@@ -49,8 +49,12 @@ namespace WebApi.Controllers
                 new Claim(JwtClaimTypes.Role,string.Join(',',roleCodes)),
                 new Claim(JwtRegisteredClaimNames.Sub, model.Account),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.Now.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
-            };
+                new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.Now.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64),
+                new Claim("jwtv","0")
+                };
+
+                await _redis.StringSetAsync("userjv_" + user.ID.ToString(), 0);
+                await _redis.KeyExpireAsync("userjv_" + user.ID.ToString(), TimeSpan.FromMinutes(30));
 
                 //notBefore  生效时间
                 // long nbf =new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds();
@@ -82,6 +86,9 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<string> Get()
         {
+
+            string jwtv = User.FindFirst("jwtv")?.Value;
+
             const string key = "msg";
             //await _redis.StringSetAsync(key, "hello world");
 
