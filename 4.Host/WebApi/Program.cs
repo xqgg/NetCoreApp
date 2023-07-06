@@ -26,9 +26,9 @@ var services = builder.Services;
 builder.Services.AddDbContext<NCDbContext>(options =>
 {
 
-    //options.UseSqlServer(builder.Configuration.GetConnectionString("local"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("local"));
 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("cloud"));
+    //options.UseSqlServer(builder.Configuration.GetConnectionString("cloud"));
 
 });
 
