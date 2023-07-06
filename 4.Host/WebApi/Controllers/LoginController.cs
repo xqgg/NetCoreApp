@@ -50,10 +50,10 @@ namespace WebApi.Controllers
                 new Claim(JwtRegisteredClaimNames.Sub, model.Account),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.Now.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64),
-                new Claim("jwtv","0")
+                new Claim("jwtv","1")
                 };
 
-                await _redis.StringSetAsync("userjv_" + user.ID.ToString(), 0);
+                await _redis.StringSetAsync("userjv_" + user.ID.ToString(), 1);
                 await _redis.KeyExpireAsync("userjv_" + user.ID.ToString(), TimeSpan.FromMinutes(30));
 
                 //notBefore  生效时间

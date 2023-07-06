@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Service.Migrations
+namespace Core.Service.Migrations
 {
     [DbContext(typeof(NCDbContext))]
-    [Migration("20230703130008_addSales")]
-    partial class addSales
+    [Migration("20230706090332_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -114,6 +114,15 @@ namespace Service.Migrations
                         .HasColumnType("nvarchar(25)")
                         .HasComment("Shipment tracking number supplied by the shipper.");
 
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Enable")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ID")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("LineTotal")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("numeric(38, 6)")
@@ -154,6 +163,9 @@ namespace Service.Migrations
                     b.Property<decimal>("UnitPriceDiscount")
                         .HasColumnType("money")
                         .HasComment("Discount amount.");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("SalesOrderId", "SalesOrderDetailId")
                         .HasName("PK_SalesOrderDetail_SalesOrderID_SalesOrderDetailID");

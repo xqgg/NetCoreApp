@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Service.Migrations
+namespace Core.Service.Migrations
 {
     [DbContext(typeof(NCDbContext))]
     partial class NCDbContextModelSnapshot : ModelSnapshot
@@ -111,6 +111,15 @@ namespace Service.Migrations
                         .HasColumnType("nvarchar(25)")
                         .HasComment("Shipment tracking number supplied by the shipper.");
 
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Enable")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ID")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("LineTotal")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("numeric(38, 6)")
@@ -151,6 +160,9 @@ namespace Service.Migrations
                     b.Property<decimal>("UnitPriceDiscount")
                         .HasColumnType("money")
                         .HasComment("Discount amount.");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("SalesOrderId", "SalesOrderDetailId")
                         .HasName("PK_SalesOrderDetail_SalesOrderID_SalesOrderDetailID");

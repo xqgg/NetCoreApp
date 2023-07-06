@@ -5,16 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Autofac.Extensions.DependencyInjection;
 using Autofac;
 using Core.Service.Context;
-//using Core.Redis;
 using Core.Common.Modules;
 using GC.WebApi.Common.Routes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
-using System.Configuration;
-using System.Globalization;
-using System.Drawing;
 using ColinChang.RedisHelper;
-
+using Core.Common.Filter;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -22,25 +18,41 @@ var services = builder.Services;
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+//builder.Services.AddControllers();
 
-//配置EF连接字符串
+
+#region EF配置
+// 配置 EF 连接字符串
 builder.Services.AddDbContext<NCDbContext>(options =>
 {
-    options.UseSqlServer(configuration.GetConnectionString("local") ?? throw new InvalidOperationException("Connection string 'WebApplication3Context' not found."));
+
+    //options.UseSqlServer(builder.Configuration.GetConnectionString("local"));
+
+    options.UseSqlServer(builder.Configuration.GetConnectionString("cloud"));
+
 });
 
-services.AddScoped<RedisHelper>();
-
-
-
-//services.AddSingleton<RedisOptions>()
-//    .Configure<RedisOptions>(r => configuration.GetSection("RedisOptions:Default").Bind(r));
+#endregion
 
 
 
 
-//services.BuildServiceProvider().GetRequiredService<RedisHelper>().Test();
+
+#region 跨域
+
+var corsPolicyName = "_myAllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: corsPolicyName,
+        builder =>
+        {
+            builder.WithOrigins("*")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
+#endregion
 
 
 #region 注册Redis
@@ -72,12 +84,17 @@ builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
 
 OpenApiInfo info = configuration.GetSection("SwaggerInfo").Get<OpenApiInfo>();
 
-#region 全局路由
+
 services.AddControllers(opt =>
 {
+    #region 全局路由
     opt.UseCentralRoutePrefix(new RouteAttribute($"api/{info.Version}/[controller]/[action]"));
+    #endregion
+
+    #region jwt检测过滤器
+    opt.Filters.Add(typeof(JwtVersionCheckFilter));
+    #endregion
 });
-#endregion
 
 
 #region swagger jwt 验证
@@ -147,6 +164,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(corsPolicyName);
 
 app.UseAuthorization();
 

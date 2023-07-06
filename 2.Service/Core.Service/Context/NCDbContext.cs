@@ -10,10 +10,10 @@ namespace Core.Service.Context
         {
         }
 
-        public DbSet<Book> Books { get; set; }
-        public DbSet<User> Users { get; set; }
+        public virtual DbSet<Book> Books { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
-        public DbSet<Role> Roles { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
 
 
         public virtual DbSet<SalesOrderDetail> SalesOrderDetails { get; set; }
